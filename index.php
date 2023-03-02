@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
 
   <link rel="stylesheet"href="assets/css/style.css">
+  <link rel="stylesheet"href="assets/css/style2.css">
 
 </head>
 <body>
@@ -48,12 +49,35 @@
             <a class="nav-link" href="#"><i class="fa fa-shopping-cart" aria-hidden="true"><sup>1</sup></i>
             </a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="#">Total Price /1500</a> <li class="nav-item">
             </li>
-          </li>
-         
+          </li> -->
         </ul>
+        <div class="drop-down">
+        <ul class="navbar-nav d-flex flex-row">
+          <li class="nav-item me-3 me-lg-0 dropdown" >
+            <li class="nav-item">
+              <a class="nav-link"href="#" >Welcome Geust</a>
+            </li>
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+               data-mdb-toggle="dropdown"
+               aria-expanded="false">
+               <i class="fas fa-user"></i>
+            </a>
+            
+            
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li>
+                <a class="dropdown-item" href="php/Users/signup.php">Sign Up</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="php/Users/signup.php">Log in</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        </div>
         <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-light" type="submit">Search</button>
@@ -64,14 +88,11 @@
   </div>
   <!--second child-->
   <nav class="navbar.navbar-expand-lg navbar-dark bg-secondary">
-    <ul class="navbar-nav me-auto">
-      <li class="nav-item">
-        <a class="nav-link"href="#" >Welcome Geust</a>
-      </li>
+    <!-- <ul class="navbar-nav me-auto">
       <li class="nav-item">
         <a class="nav-link"href="login.php" >login</a>
       </li>
-    </ul>
+    </ul> -->
 </nav>
   <!--Third child-->
   <div class="bg-light">
@@ -216,6 +237,8 @@
     <p>All Rights Reserved --developed by cyprian 2023</p>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  <!-- Scripts -->
+  <script type="text/javascript" src="js/script1.js"></script>
 
 </body>
 </html>
