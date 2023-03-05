@@ -1,3 +1,64 @@
+<?php
+session_start();
+if(!isset($_SESSION['email'])){
+  $_SESSION['redirectURL'] = $_SERVER['REQUEST_URL'];
+  header('location:includes/login.php');
+}
+?>
+
+<?php
+require_once 'includes/config.php';
+$sql="SELECT * FROM users where email='" . $_SESSION["email"] . "'";
+$stmt = $DBH->prepare($sql);
+$stmt->execute();
+$total = $stmt->rowCount();
+?>
+
+<?php
+      require_once("includes/config.php");
+      $db_handle = new DBController();
+      if(!empty($_GET["action"])) {
+      switch($_GET["action"]) {
+	    case "add":
+        if(!empty($_POST["quantity"])) {
+          $productByCode = $db_handle->runQuery("SELECT * FROM products WHERE code='" . $_GET["code"] . "'");
+          $itemArray = array($productByCode[0]["code"]=>array('productname'=>$productByCode[0]["productname"], 'code'=>$productByCode[0]["code"], 'quantity'=>$_POST["quantity"], 'price'=>$productByCode[0]["price"], 'productimage'=>$productByCode[0]["productimage"], 'productinfo'=>$productByCode[0]["productinfo"]));
+          
+          if(!empty($_SESSION["cart_item"])) {
+            if(in_array($productByCode[0]["code"],array_keys($_SESSION["cart_item"]))) {
+              foreach($_SESSION["cart_item"] as $k => $v) {
+                  if($productByCode[0]["code"] == $k) {
+                    if(empty($_SESSION["cart_item"][$k]["quantity"])) {
+                      $_SESSION["cart_item"][$k]["quantity"] = 0;
+                    }
+                    $_SESSION["cart_item"][$k]["quantity"] += $_POST["quantity"];
+                  }
+              }
+            } else {
+              $_SESSION["cart_item"] = array_merge($_SESSION["cart_item"],$itemArray);
+            }
+          } else {
+            $_SESSION["cart_item"] = $itemArray;
+          }
+        }
+      break;
+      case "remove":
+        if(!empty($_SESSION["cart_item"])) {
+          foreach($_SESSION["cart_item"] as $k => $v) {
+              if($_GET["code"] == $k)
+                unset($_SESSION["cart_item"][$k]);				
+              if(empty($_SESSION["cart_item"]))
+                unset($_SESSION["cart_item"]);
+          }
+        }
+      break;
+      case "empty":
+        unset($_SESSION["cart_item"]);
+      break;
+    }
+  }
+  ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +74,7 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
 
   <link rel="stylesheet"href="assets/css/style.css">
-  <link rel="stylesheet"href="assets/css/style2.css">
+  <link rel="stylesheet"href="assets/css/extrastyles.css">
 
 </head>
 <body>
@@ -30,54 +91,76 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/">Home</a>
+            <a class="nav-link active" aria-current="page" href="index.php">Home</a>
           </li>
           <!--products-->
           <li class="nav-item">
-            <a class="nav-link" href="#">Products</a>
-          </li>
-           <!--register-->
-          <li class="nav-item">
-            <a class="nav-link" href="Register.php">Register</a>
+            <a class="nav-link" href="index.php">Products</a>
           </li>
            <!--contacts-->
           <li class="nav-item">
-            <a class="nav-link" href="#">Contacts</a>
+            <a class="nav-link" href="index.php">Contacts</a>
           </li>
            <!--cart-->
+           <?php
+            if(isset($_SESSION["cart_item"])){
+            $total_quantity = 0;
+            $total_price = 0;
+          ?>
+          <?php		
+            foreach ($_SESSION["cart_item"] as $item){
+             $item_price = $item["quantity"]*$item["price"];
+		      ?>
+          <?php
+				   $total_quantity += $item["quantity"];
+				   $total_price += ($item["price"]*$item["quantity"]);
+		       }
+		      ?>	
           <li class="nav-item">
-            <a class="nav-link" href="#"><i class="fa fa-shopping-cart" aria-hidden="true"><sup>1</sup></i>
+            <a class="nav-link" href="cart.php"><i class="fa fa-shopping-cart" aria-hidden="true"><sup><?php echo $total_quantity; ?></sup></i>
             </a>
           </li>
+          <?php
+           } else {
+          ?>
+          <li class="nav-item">
+            <a class="nav-link" href="cart.php"><i class="fa fa-shopping-cart" aria-hidden="true"><sup>0</sup></i>
+            </a>
+          </li>
+          <?php 
+           }
+           ?>
           <!-- <li class="nav-item">
             <a class="nav-link" href="#">Total Price /1500</a> <li class="nav-item">
             </li>
           </li> -->
         </ul>
-        <div class="drop-down">
         <ul class="navbar-nav d-flex flex-row">
-          <li class="nav-item me-3 me-lg-0 dropdown" >
+           <li class="nav-item me-3 me-lg-0 dropdown" >
+           <?php
+              while($row = $stmt->fetchObject()) {
+              ?>
             <li class="nav-item">
-              <a class="nav-link"href="#" >Welcome Geust</a>
+              <a class="nav-link"href="#" >Welcome <?php echo "{$row->username}"; ?></a>
             </li>
+            <?php
+                }
+            ?>
+          <div class="dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                data-mdb-toggle="dropdown"
-               aria-expanded="false">
+               aria-expanded="false"
+               aria-haspopup="true" >
                <i class="fas fa-user"></i>
             </a>
-            
-            
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li>
-                <a class="dropdown-item" href="php/Users/signup.php">Sign Up</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="php/Users/signup.php">Log in</a>
-              </li>
-            </ul>
-          </li>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="includes/Register.php">Sign Up</a>
+              <a class="dropdown-item" href="includes/login.php">Log in</a>
+              <a class="dropdown-item" href="includes/logout.php">Log Out</a>
+            </div>
+          </div>
         </ul>
-        </div>
+         
         <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-light" type="submit">Search</button>
@@ -87,18 +170,42 @@
   </nav>
   </div>
   <!--second child-->
-  <nav class="navbar.navbar-expand-lg navbar-dark bg-secondary">
-    <!-- <ul class="navbar-nav me-auto">
+  <!-- <nav class="navbar.navbar-expand-lg navbar-dark bg-secondary">
+    <ul class="navbar-nav me-auto">
       <li class="nav-item">
         <a class="nav-link"href="login.php" >login</a>
       </li>
-    </ul> -->
-</nav>
+    </ul>
+  </nav> -->
   <!--Third child-->
   <div class="bg-light">
     <h3 class="text-center">Smoby Groceries</h3>
     <p class="text-center">Stock up your pantry with us.</p>
   </div>
+  <div class="alertMsg" id="alertMsg">Product Successfully added to cart</div>
+  <!-- success message -->
+  <script>
+      function showMsg()
+      {
+      $("#alertMsg").fadeIn('slow', function () {
+      $(this).delay(1000).fadeOut('slow');
+      });
+    }
+    </script>
+    <style>
+    .alertMsg
+    {
+     display:none;
+     padding: 10px 6px;
+     border: 1 px solid;
+     background:lightgreen;
+     bottom: 300px;
+     position: fixed;
+     z-index: 1;
+     border-radius:20px;
+    }
+    </style>
+
   <!--corousel-->
  
   <!--fourth child-->
@@ -106,91 +213,119 @@
     <div class="col-md-10">
       <!---->
      
-       <div class="row">
-         <div class="col-md-4 mb-2">
-          <div class="card">
-            <img src="assets/imgs/capsicum.jpeg" class="card-img-top" alt="capsicum">
-            <div class="card-body">
-              <h5 class="card-title">Ksh 100=/kg </h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-info">Add To Cart</a>
-              <a href="#" class="btn btn-secondary">View more</a>
-            </div>
+      <div id="product-grid" class="row products">
+          <?php
+          if (isset($_POST['submit'])){
+            $search = $_POST['search'];
+            $product_array = $db_handle->runQuery("SELECT * FROM products where (category LIKE '%" . $_POST["search"] . "%') OR (productname LIKE '%" . $_POST["search"] . "%') OR (productinfo LIKE '%" . $_POST["search"] . "%')OR (price LIKE '%" . $_POST["search"] . "%') OR (products LIKE '%" . $_POST["search"] . "%')");
+            if (!empty($product_array)) { 
+              foreach($product_array as $key=>$value){
+                ?>
+          <div class="product-item card" style="width:310px;height:480px;">
+          <iframe name="votar" style="display:none;"></iframe>
+            <form method="post" target="votar" action="index.php?action=add&code=<?php echo $product_array[$key]["code"]; ?>" onsubmit="showMsg()">
+            <div class="product-image"><img src="<?php echo "assets/imgs/products/".$product_array[$key]['productimage'];?>" style="max-width:295px; max-height:200px;"></div>
+            <div class="product-tile-footer"><br><br><br>
+            <div class="product-title"><h5><?php echo $product_array[$key]["productname"]; ?></h5>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <h6><?php echo $product_array[$key]["price"]; ?> ksh</h6>
+            <p class="card-text">
+              <?php echo $product_array[$key]["productinfo"]; ?>
+            </p>
+          </div> 
+          <div class="cart-action">
+          <div id="field1" class="btn btn-dark">QTY
+            <!-- <button type="button" id="sub" class="sub">-</button> -->
+            <input type="number" name="quantity" id="1" value="1" min="1" style="width:50px;" required/>
+            <!-- <button type="button" id="add" class="add">+</button> -->
           </div>
-           </div>
 
-         <div class="col-md-4 mb-2">
-          <div class="card">
-            <img src="assets/imgs/corriander.jpeg" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-info">Add To Cart</a>
-              <a href="#" class="btn btn-secondary">View more</a>
-            </div>
-          </div>
-         </div>
 
-        <div class="col-md-4 mb-2">
-          <div class="card">
-            <img src="assets/imgs/onions.jpeg" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-info">Add To Cart</a>
-              <a href="#" class="btn btn-secondary">View more</a>
-            </div>
-          </div>
+           <!-- plus and minus button  -->
+          <script>
+             $(document).ready(function(){
+             $('.add').click(function () {
+             if ($(this).prev().val() > 1) {
+           $(this).prev().val(+$(this).prev().val() + 1);
+            }
+           });
+           $('.sub').click(function () {
+           if ($(this).next().val() > 1) {
+           if ($(this).next().val() > 1) $(this).next().val(+$(this).next().val() - 1);
+            }
+           });
+           });
+          </script>
+          <input type="submit" value="Add to Cart" class="btnAddAction" onclick="myFunction()"/>
+        
         </div>
-        <div class="col-md-4 mb-2">
-          <div class="card">
-            <img src="assets/imgs/mangoes.jpeg" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Mangoes</h5>
-              <p class="card-text">Mangoes are not only delicious, but also nutritious</p>
-              <a href="#" class="btn btn-info">Add To Cart</a>
-              <a href="#" class="btn btn-secondary">View more</a>
-            </div>
-          </div>
         </div>
-
-        <div class="col-md-4 mb-2">
-          <div class="card">
-            <img src="/home/cyprian/onlinegrocery/assets/imgs/download.jpeg" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-info">Add To Cart</a>
-              <a href="#" class="btn btn-secondary">View more</a>
-            </div>
+        </form>
+		    </div>
+        <?php
+        }
+      }
+    }else{
+    $product_array = $db_handle->runQuery("SELECT * FROM products ORDER BY id ASC ");
+	  if (!empty($product_array)) { 
+		foreach($product_array as $key=>$value){
+	?>
+    <div class="product-item card" style="width:310px;height:480px;">
+    <iframe name="votar" style="display:none;"></iframe>
+			<form method="post" target="votar" action="index.php?action=add&code=<?php echo $product_array[$key]["code"]; ?>" onsubmit="showMsg()">
+			<div class="product-image"><img src="<?php echo "assets/imgs/products/".$product_array[$key]['productimage'];?>" style="max-width:295px; max-height:200px;"></div>
+			<div class="product-tile-footer"><br><br><br>
+			<div class="product-title"><h5><?php echo $product_array[$key]["productname"]; ?></h5>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <h6><?php echo $product_array[$key]["price"]; ?> ksh</h6>
+        <p class="card-text">
+          <?php echo $product_array[$key]["productinfo"]; ?>
+        </p>
+      </div> 
+			<div class="cart-action" style="display:flex;">
+          <div id="field1" class="btnAddAction" style="background-color: #211a1a; color:white;">QTY
+            <!-- <button type="button" id="sub" class="sub">-</button> -->
+            <input type="number" name="quantity" id="1" value="1" min="1" style="width:50px;" required/>
+            <!-- <button type="button" id="add" class="add">+</button> -->
           </div>
-        </div>
 
-        <div class="col-md-4 mb-2">
-          <div class="card">
-            <img src="/home/cyprian/onlinegrocery/assets/imgs/tomato.jpeg" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-info">Add To Cart</a>
-              <a href="#" class="btn btn-secondary">View more</a>
-            </div>
-          </div>
-        </div>
 
-        <div class="col-md-4 mb-2">
-          <div class="card">
-            <img src="/home/cyprian/onlinegrocery/assets/imgs/mangoes.jpeg" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-info">Add To Cart</a>
-              <a href="#" class="btn btn-secondary">View more</a>
-            </div>
-          </div>
-        </div>
+           <!-- plus and minus button  -->
+          <script>
+             $(document).ready(function(){
+             $('.add').click(function () {
+             if ($(this).prev().val() > 1) {
+           $(this).prev().val(+$(this).prev().val() + 1);
+            }
+           });
+           $('.sub').click(function () {
+           if ($(this).next().val() > 1) {
+           if ($(this).next().val() > 1) $(this).next().val(+$(this).next().val() - 1);
+            }
+           });
+           });
+          </script>
 
-     </div>
+        <input type="submit" value="Add to Cart" class="btnAddAction" onclick="myFunction()"/>
+
+      </div>
+			</div>
+			</form>
+    </div>
+    <?php
+        }
+      }
+    }
+    ?>
+    </div>
       <!--products-->
     </div>
     <div class="col-md-2 bg-secondary p-0">
@@ -229,16 +364,16 @@
       
     </div>
   </div>
-
-
-
-  <!--footer-->
- <div class="bg-info p-3 text-center">
-    <p>All Rights Reserved --developed by cyprian 2023</p>
-  </div>
+  
+ <!--footer-->
+ <?php
+   require_once 'includes/footer.php';
+  ?>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
   <!-- Scripts -->
   <script type="text/javascript" src="js/script1.js"></script>
+  <!-- success message -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 </body>
 </html>
