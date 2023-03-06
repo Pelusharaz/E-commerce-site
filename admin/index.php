@@ -16,7 +16,7 @@
 ?>
 
 <?php
-      require_once("includes/config.php");
+      require_once("../includes/config.php");
       $db_handle = new DBController();
       if(!empty($_GET["action"])) {
       switch($_GET["action"]) {
@@ -150,7 +150,7 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" href="includes/Register.php">Sign Up</a>
               <a class="dropdown-item" href="includes/login.php">Log in</a>
-              <a class="dropdown-item" href="includes/logout.php">Log Out</a>
+              <a class="dropdown-item" href="../includes/logout.php">Log Out</a>
             </div>
           </div>
         </ul>
@@ -366,11 +366,11 @@
   
  <!--footer-->
  <?php
-   require_once 'includes/footer.php';
+   require_once '../includes/footer.php';
   ?>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
   <!-- Scripts -->
-  <script type="text/javascript" src="js/script1.js"></script>
+  <script type="text/javascript" src="../js/script1.js"></script>
   <!-- success message -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 

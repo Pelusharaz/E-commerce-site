@@ -2,11 +2,11 @@
 <?php
 session_start();
 
-require_once 'config.php';
+require_once '../../includes/config.php';
 
 if(ISSET($_POST['submit'])){
 
-$stmt = $DBH->prepare("SELECT * FROM users WHERE email = ?");
+$stmt = $DBH->prepare("SELECT * FROM admin WHERE email = ?");
 $stmt->execute([$_POST['email']]);
 $user = $stmt->fetch();
 $_SESSION['email'] = $user['email'];
@@ -32,7 +32,7 @@ if ($user && password_verify($_POST['password'], $user['password']))
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smoby Groceries</title>
-    <link rel="icon" href="../assets/imgs/download.png" type="image/icon type">
+    <link rel="icon" href="../../assets/imgs/download.png" type="image/icon type">
 
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
@@ -40,7 +40,7 @@ if ($user && password_verify($_POST['password'], $user['password']))
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
 
 <link rel="stylesheet"href="assets/css/style.css">
-<link rel ="stylesheet" type = "text/css" href ="../assets/css/form.css">
+<link rel ="stylesheet" type = "text/css" href ="../../assets/css/form.css">
 
 </head>
 <style>
@@ -60,29 +60,15 @@ if ($user && password_verify($_POST['password'], $user['password']))
 <div class="container-fluid p-0">
   <nav class="navbar navbar-expand-lg navbar-light bg-info">
     <div class="container-fluid">
-      <img src="../assets/imgs/download.png" width="80" alt="logo" class="logo">
+      <img src="../../assets/imgs/download.png" width="80" alt="logo" class="logo">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="../index.php">Home</a>
+            <a class="nav-link active" aria-current="page" href="../../includes/index.php">Home</a>
           </li>
-          <!--products-->
-          <li class="nav-item">
-            <a class="nav-link" href="../index.php">Products</a>
-          </li>
-           <!--contacts-->
-          <li class="nav-item">
-            <a class="nav-link" href="../index.php">Contacts</a>
-          </li>
-           <!--cart-->
-          <li class="nav-item">
-            <a class="nav-link" href="../cart.php"><i class="fa fa-shopping-cart" aria-hidden="true"><sup>0</sup></i>
-            </a>
-          </li>
-         
         </ul>
         
       </div>
@@ -103,13 +89,13 @@ if ($user && password_verify($_POST['password'], $user['password']))
     
         <div class="wrapper" style="display:flex; justify-content: center;">
         <div class="picture" style="margin-top:50px;">
-            <img src="../assets/imgs/shopping.jpg" alt="" height="510px"  width="400px">
+            <img src="../../assets/imgs/log-in.jpg" alt="" height="510px"  width="400px">
         </div>
         <div class="form-information" style="margin-top:50px;">
         <form action="login.php" method="POST">
         <div class="form-container">
             <div class="container">
-                <h3 style="font-weight:bold;">User Log in <img src="../assets/imgs/ad.png" alt=""align="left" width="50" style="margin-right:10px"></h3>
+                <h3 style="font-weight:bold;">Admin Log in <img src="../../assets/imgs/ad.png" alt=""align="left" width="50" style="margin-right:10px"></h3>
                 <hr><br>
                 <label for="name"><b>Name</b></label>
                 <input type="text" placeholder="Enter Username" name="username" required>
@@ -128,7 +114,7 @@ if ($user && password_verify($_POST['password'], $user['password']))
                 <hr>
                 
                 <button type="submit" name="submit" class="registerbtn"style="margin:auto; display:block;">Log in</button>
-                <center><a href="../admin/log-ins/login.php">Admin</a></center>
+                <center><a href="../../includes/login.php">User</a></center>
                 <br><button style=" background:skyblue;"><a href="Register.php"style="text-decoration:none;">sign up</a></button> 
                 <button style="float:right; background:skyblue;"><a href="forgotpassword.php"style="text-decoration:none;">Forgot Password</a></button>
               </div>
@@ -168,7 +154,7 @@ if ($user && password_verify($_POST['password'], $user['password']))
 
  <!--footer-->
  <?php
-   require_once 'footer.php';
+   require_once '../../includes/footer.php';
   ?>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 

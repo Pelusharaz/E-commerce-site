@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 05, 2023 at 03:53 PM
+-- Generation Time: Mar 06, 2023 at 09:50 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -20,6 +20,29 @@ SET time_zone = "+00:00";
 --
 -- Database: `grocers_db`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin`
+--
+
+CREATE TABLE `admin` (
+  `id` int(11) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `repeatpassword` varchar(100) NOT NULL,
+  `Date` date NOT NULL,
+  `Time` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`id`, `username`, `email`, `password`, `repeatpassword`, `Date`, `Time`) VALUES
+(1, 'admin', 'admin@gmail.com', '$2y$10$CCjQSko2jSMXL21wu..mDuZRuImYE.bJsOrCVIBq2OM0PYFrF3bh2', '$2y$10$uMMQrOEMe0K8irQOua9.y.d0nbfeoq5UoAtAW/dfA07pgi.TbKShe', '2023-03-06', '2023-03-06 23:42:21');
 
 -- --------------------------------------------------------
 
@@ -78,7 +101,7 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `productname`, `price`, `productinfo`, `productimage`, `category`, `products`, `code`, `Date`, `Time`) VALUES
-(2, 'Grocery1', 4990, 'fresh', 'coloredcapsicums.jpeg', 'Phonesandtablets', 'products', 'pd1', '2022-06-04', '14:01:06.0'),
+(2, 'Grocery 1', 4990, 'fresh', 'coloredcapsicums.jpeg', 'Phonesandtablets', 'products', 'pd1', '2022-06-04', '14:01:06.0'),
 (3, 'Grocery 2', 399, 'fresh', 'corriander.jpeg', 'Phonesandtablets', 'products', 'pd2', '2022-06-04', '14:02:10.0'),
 (4, 'Grocery 3', 498, 'fresh', 'mangoes.jpeg', 'Phonesandtablets', 'products', 'pd3', '2022-06-04', '14:03:01.0');
 
@@ -111,6 +134,12 @@ INSERT INTO `users` (`id`, `username`, `email`, `password`, `repeatpassword`, `D
 --
 
 --
+-- Indexes for table `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
@@ -131,6 +160,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `orders`
