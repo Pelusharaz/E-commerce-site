@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2023 at 11:31 AM
+-- Generation Time: Mar 07, 2023 at 12:09 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -125,7 +125,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `repeatpassword`, `Date`, `Time`) VALUES
-(1, '  user', ' user@gmail.com', '$2y$10$guc7p7KVmlMIUaAdl0Fu3O5yM8yRajQRZMWyWiYARWT3euU.tY4LG', '$2y$10$T3RTeCEGdDf9FftXnAG33.PkXDQsCJicGt3LrzG1W5AhVqPtoDd2e', '2023-03-04', '15:16:56.0');
+(3, 'user', 'user@gmail.com', '$2y$10$AIgZp7WMLcfswNI13aJ7HOqiSamCWxZi7zB286.Wesrquk6QDKmaK', '$2y$10$F6v3G0syk0r7cWfaj7wouO.7R0fZfatSjM.uHGTgodxjN.Tmjbl.e', '2023-03-07', '14:07:56.0');
 
 --
 -- Indexes for dumped tables
@@ -181,7 +181,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
