@@ -34,7 +34,7 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" href="log-ins/Register.php">Sign Up</a>
               <a class="dropdown-item" href="log-ins/login.php">Log in</a>
-              <a class="dropdown-item" href="../../includes/logout.php">Log Out</a>
+              <a class="dropdown-item" href="../includes/logout.php">Log Out</a>
             </div>
           </div>
            <?php
