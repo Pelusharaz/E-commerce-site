@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2023 at 09:03 AM
+-- Generation Time: Mar 07, 2023 at 11:31 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -74,7 +74,6 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `productname`, `quantity`, `unitprice`, `price`, `totalquantity`, `totalprice`, `name`, `phone`, `email`, `delivery`, `information`, `mpesa`, `checkbox`, `Date`, `Time`) VALUES
-(1, 'Ceramic Matte Screen Protector', '5', '498 ksh', '2,490.00ksh', 5, '2,490.00 ksh', 'user', '0791386752', 'user@gmail.com', 'Juja', 'test', 791386752, 'on', '2023-03-05', '17:04:42.0'),
 (2, 'Grocery1,Grocery 2', '2,1', '4990 ksh,399 ksh', '9,980.00ksh,399.00ksh', 3, '10,379.00 ksh', 'Cyprian', '0796526231', 'cyprian@gmail.com', 'other', 'Ruiru Ndani', 796526231, 'on', '2023-03-05', '17:29:14.0');
 
 -- --------------------------------------------------------
