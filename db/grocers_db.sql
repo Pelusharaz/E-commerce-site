@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2023 at 09:50 PM
+-- Generation Time: Mar 07, 2023 at 09:03 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -126,8 +126,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `repeatpassword`, `Date`, `Time`) VALUES
-(1, 'user', 'user@gmail.com', '$2y$10$guc7p7KVmlMIUaAdl0Fu3O5yM8yRajQRZMWyWiYARWT3euU.tY4LG', '$2y$10$T3RTeCEGdDf9FftXnAG33.PkXDQsCJicGt3LrzG1W5AhVqPtoDd2e', '2023-03-04', '15:16:56.0'),
-(2, 'Cyprian', 'cyprian@gmail.com', '$2y$10$unpOM88GUXRsnCClk22lpuba.igqUrtbh7.4iwPppJ3K7i91/zlpK', '$2y$10$J/DSDY8kjCHdBp1tJ4UQNO1q7OciRJHgHESP2q0m5s99qpXfBs936', '2023-03-05', '17:24:10.0');
+(1, '  user', ' user@gmail.com', '$2y$10$guc7p7KVmlMIUaAdl0Fu3O5yM8yRajQRZMWyWiYARWT3euU.tY4LG', '$2y$10$T3RTeCEGdDf9FftXnAG33.PkXDQsCJicGt3LrzG1W5AhVqPtoDd2e', '2023-03-04', '15:16:56.0');
 
 --
 -- Indexes for dumped tables
