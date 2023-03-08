@@ -328,9 +328,9 @@
       <!--products-->
     </div>
     <div class="col-md-2 bg-secondary p-0">
-      <ul class="navbar-nav me-auto">
+      <!-- <ul class="navbar-nav me-auto">
         <li class="nav-item bg-info">
-          <!--Brands-->
+          Brands
           <a href="#" class="nav-link text-center text-light"><h4>Brands</h4> </a>
         </li>
         <li class="nav-item ">
@@ -343,23 +343,34 @@
           <a href="#" class="nav-link text-center text-light"><h4>Brand3</h4> </a>
         </li>
 
-      </ul>
-      <ul class="navbar-nav me-auto">
+      </ul> -->
+      <?php
+       require_once 'includes/config.php';
+       $sql="SELECT * FROM categories ";
+       $stmt = $DBH->prepare($sql);
+       $stmt->execute();
+       $total = $stmt->rowCount();
+      ?>
+      
+      <ul class="navbar-nav me-auto ">
         <li class="nav-item bg-info">
           <!--categories-->
           <a href="#" class="nav-link text-center text-light"><h4>Categories</h4> </a>
         </li>
-        <li class="nav-item ">
-          <a href="#" class="nav-link text-center text-light"><h4>category1</h4> </a>
-        </li>
-        <li class="nav-item ">
-          <a href="#" class="nav-link text-center text-light"><h4>category2</h4> </a>
-        </li>
-        <li class="nav-item ">
-          <a href="#" class="nav-link text-center text-light"><h4>category3</h4> </a>
-        </li>
-
+        
+        <?php
+              while($row = $stmt->fetchObject()) {
+              ?>
+        <form action="" method="POST">
+        <div class="nav-item ">
+          <input type="text" name="search" value="<?php echo "{$row->categories}"; ?>" style="display:none;">
+          <button type="submit" name="submit" class="category" style="border: none; color:white; background-color: transparent;"><h4><?php echo "{$row->categories}"; ?></h4> </button>
+        </div>
+        </form>
       </ul>
+      <?php
+                }
+            ?>
       
     </div>
   </div>

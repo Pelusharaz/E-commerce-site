@@ -21,6 +21,10 @@
           <li class="nav-item">
             <a class="nav-link" href="products.php">Products</a>
           </li>
+          <!--categories-->
+          <li class="nav-item">
+            <a class="nav-link" href="categories.php">categories</a>
+          </li>
         </ul>
         <ul class="navbar-nav d-flex flex-row">
            <li class="nav-item me-3 me-lg-0 dropdown" >
